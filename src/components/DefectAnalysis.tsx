@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -63,23 +62,54 @@ const DefectAnalysis: React.FC<DefectAnalysisProps> = ({
         // Draw original image
         ctx.drawImage(img, 0, 0);
         
-        // Draw defect highlights
+        // Draw defect highlights with enhanced visibility
         defects.forEach((defect, index) => {
           const color = getDefectColor(defect.type);
           
-          // Draw bounding box
+          // Draw semi-transparent filled rectangle for better visibility
+          ctx.fillStyle = color + '40'; // Add alpha for transparency
+          ctx.fillRect(defect.x, defect.y, defect.width, defect.height);
+          
+          // Draw thick bounding box
           ctx.strokeStyle = color;
-          ctx.lineWidth = 3;
+          ctx.lineWidth = 4;
           ctx.strokeRect(defect.x, defect.y, defect.width, defect.height);
           
-          // Draw label background
+          // Add small corner indicators for better visibility
+          const cornerSize = 8;
           ctx.fillStyle = color;
-          ctx.fillRect(defect.x, defect.y - 25, 120, 25);
+          // Top-left corner
+          ctx.fillRect(defect.x - 2, defect.y - 2, cornerSize, cornerSize);
+          // Top-right corner
+          ctx.fillRect(defect.x + defect.width - 6, defect.y - 2, cornerSize, cornerSize);
+          // Bottom-left corner
+          ctx.fillRect(defect.x - 2, defect.y + defect.height - 6, cornerSize, cornerSize);
+          // Bottom-right corner
+          ctx.fillRect(defect.x + defect.width - 6, defect.y + defect.height - 6, cornerSize, cornerSize);
+          
+          // Draw label with better background
+          const labelText = `${defect.type.replace('_', ' ').toUpperCase()} ${Math.round(defect.confidence * 100)}%`;
+          const labelWidth = ctx.measureText(labelText).width + 16;
+          const labelHeight = 28;
+          const labelY = defect.y > labelHeight ? defect.y - labelHeight : defect.y + defect.height + 5;
+          
+          // Draw label background with shadow
+          ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+          ctx.fillRect(defect.x - 2, labelY - 2, labelWidth + 4, labelHeight + 4);
+          ctx.fillStyle = color;
+          ctx.fillRect(defect.x, labelY, labelWidth, labelHeight);
           
           // Draw label text
           ctx.fillStyle = 'white';
-          ctx.font = '12px Arial';
-          ctx.fillText(`${defect.type} ${Math.round(defect.confidence * 100)}%`, defect.x + 5, defect.y - 8);
+          ctx.font = 'bold 14px Arial';
+          ctx.textAlign = 'left';
+          ctx.fillText(labelText, defect.x + 8, labelY + 18);
+          
+          // Add defect number
+          ctx.fillStyle = 'white';
+          ctx.font = 'bold 16px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillText(`${index + 1}`, defect.x + defect.width/2, defect.y + defect.height/2 + 6);
         });
         
         resolve(canvas.toDataURL());
@@ -90,11 +120,11 @@ const DefectAnalysis: React.FC<DefectAnalysisProps> = ({
 
   const getDefectColor = (type: string): string => {
     const colors = {
-      short_circuit: '#ef4444',
-      open_circuit: '#f97316',
-      solder_bridge: '#eab308',
-      missing_component: '#8b5cf6',
-      misaligned_component: '#06b6d4'
+      short_circuit: '#ef4444',      // Red
+      open_circuit: '#f97316',       // Orange  
+      solder_bridge: '#eab308',      // Yellow
+      missing_component: '#8b5cf6',  // Purple
+      misaligned_component: '#06b6d4' // Cyan
     };
     return colors[type as keyof typeof colors] || '#6b7280';
   };

@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import ImageUpload from '@/components/ImageUpload';
 import DefectAnalysis from '@/components/DefectAnalysis';
 import ResultsPanel from '@/components/ResultsPanel';
+import DefectChart from '@/components/DefectChart';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
@@ -76,7 +76,7 @@ const Index = () => {
 
           {/* Right Panel - Analysis Display */}
           <div className="lg:col-span-2">
-            <Card className="p-6">
+            <Card className="p-6 mb-6">
               <h2 className="text-xl font-semibold text-slate-800 mb-4">Analysis Results</h2>
               <DefectAnalysis
                 originalImage={uploadedImage}
@@ -86,6 +86,14 @@ const Index = () => {
                 onAnalysisComplete={handleAnalysisComplete}
               />
             </Card>
+
+            {/* Charts Panel */}
+            {detectedDefects.length > 0 && (
+              <Card className="p-6">
+                <h2 className="text-xl font-semibold text-slate-800 mb-4">Defect Analytics</h2>
+                <DefectChart defects={detectedDefects} />
+              </Card>
+            )}
           </div>
         </div>
 

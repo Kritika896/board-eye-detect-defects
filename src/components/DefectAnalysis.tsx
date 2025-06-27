@@ -120,11 +120,12 @@ const DefectAnalysis: React.FC<DefectAnalysisProps> = ({
 
   const getDefectColor = (type: string): string => {
     const colors = {
-      short_circuit: '#ef4444',      // Red
-      open_circuit: '#f97316',       // Orange  
-      solder_bridge: '#eab308',      // Yellow
-      missing_component: '#8b5cf6',  // Purple
-      misaligned_component: '#06b6d4' // Cyan
+      spurious_copper: '#dc2626',     // Dark Red
+      spur: '#ea580c',               // Orange Red
+      short: '#ef4444',              // Red
+      open_circuit: '#f97316',       // Orange
+      mouse_bite: '#8b5cf6',         // Purple
+      missing_hole: '#06b6d4'        // Cyan
     };
     return colors[type as keyof typeof colors] || '#6b7280';
   };

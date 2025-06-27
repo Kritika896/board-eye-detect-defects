@@ -13,11 +13,13 @@ interface ResultsPanelProps {
 const ResultsPanel: React.FC<ResultsPanelProps> = ({ detects }) => {
   const getDefectIcon = (type: string) => {
     switch (type) {
-      case 'short_circuit':
+      case 'short':
       case 'open_circuit':
         return <XCircle className="w-4 h-4" />;
-      case 'solder_bridge':
-      case 'missing_component':
+      case 'spurious_copper':
+      case 'spur':
+      case 'mouse_bite':
+      case 'missing_hole':
         return <AlertTriangle className="w-4 h-4" />;
       default:
         return <AlertTriangle className="w-4 h-4" />;
@@ -26,11 +28,12 @@ const ResultsPanel: React.FC<ResultsPanelProps> = ({ detects }) => {
 
   const getDefectColor = (type: string) => {
     const colors = {
-      short_circuit: 'destructive',
+      spurious_copper: 'destructive',
+      spur: 'destructive', 
+      short: 'destructive',
       open_circuit: 'destructive',
-      solder_bridge: 'default',
-      missing_component: 'secondary',
-      misaligned_component: 'outline'
+      mouse_bite: 'secondary',
+      missing_hole: 'default'
     };
     return colors[type as keyof typeof colors] || 'default';
   };

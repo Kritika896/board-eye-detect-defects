@@ -8,7 +8,7 @@ import { Separator } from '@/components/ui/separator';
 
 export interface DetectedDefect {
   id: string;
-  type: 'short_circuit' | 'open_circuit' | 'solder_bridge' | 'missing_component' | 'misaligned_component';
+  type: 'spurious_copper' | 'spur' | 'short' | 'open_circuit' | 'mouse_bite' | 'missing_hole';
   confidence: number;
   x: number;
   y: number;

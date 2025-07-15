@@ -70,17 +70,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     <div className="space-y-4">
       {/* Upload Area */}
       <Card
-        className="border-2 border-dashed border-slate-300 hover:border-blue-400 transition-colors cursor-pointer p-8"
+        className="border-2 border-dashed border-green-300 hover:border-green-500 transition-colors cursor-pointer p-8 bg-green-50/50"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onClick={() => fileInputRef.current?.click()}
       >
         <div className="text-center">
-          <Upload className="mx-auto h-12 w-12 text-slate-400 mb-4" />
-          <p className="text-slate-600 mb-2">
+          <Upload className="mx-auto h-12 w-12 text-green-500 mb-4" />
+          <p className="text-green-700 mb-2 font-medium">
             Drag & drop your PCB image here, or click to browse
           </p>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-green-600">
             Supports JPG, PNG, and other image formats
           </p>
         </div>
@@ -100,9 +100,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             <img
               src={uploadedImage}
               alt="Uploaded PCB"
-              className="w-full h-48 object-cover rounded-lg border"
+              className="w-full h-48 object-cover rounded-lg border-2 border-green-200"
             />
-            <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded text-sm flex items-center">
+            <div className="absolute top-2 right-2 bg-green-500 text-white px-3 py-1 rounded-full text-sm flex items-center shadow-lg">
               <ImageIcon className="w-4 h-4 mr-1" />
               Ready
             </div>
@@ -112,18 +112,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           <Button
             onClick={onStartAnalysis}
             disabled={isAnalyzing}
-            className="w-full bg-blue-600 hover:bg-blue-700"
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-medium"
             size="lg"
           >
             {isAnalyzing ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
-                Analyzing...
+                Analyzing PCB...
               </>
             ) : (
               <>
                 <Play className="w-4 h-4 mr-2" />
-                Start Analysis
+                Start AI Analysis
               </>
             )}
           </Button>
